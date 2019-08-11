@@ -1,6 +1,13 @@
 const express = require('express');
+const connectDB = require('./config/db.js');
 
 const app = express();
+
+// Połączenie z MongoDB
+connectDB();
+
+// Inicjalizacja oprogramowania pośredniczącego (middleware)
+app.use(express.json({ extended: false }));
 
 app.get('/', (req, res) => res.json({ msg: 'Witaj w API Contact Keepera' }));
 
