@@ -22,9 +22,42 @@ router.get('/', auth, async (req, res) => {
 // @routing		Post api/contacts
 // @opis			Dodanie nowego kontaktu
 // @dostęp		Prywatny
-router.post('/', (req, res) => {
-	res.send('Dodano kontakt');
-});
+router.post(
+	'/',
+	[
+		auth,
+		[
+			check('name', 'Imię jest obowiązkowe')
+				.not()
+				.isEmpty(),
+		],
+	],
+	async (req, res) => {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ errors: errors.array() });
+		}
+
+		const { name, email, phone, type } = req.body;
+
+		try {
+			const newContact = new Contact({
+				name,
+				email,
+				phone,
+				type,
+				user: req.user.id,
+			});
+
+			const contact = await newContact.save();
+
+			res.json(contact);
+		} catch (err) {
+			console.log(err.message);
+			res.status(500).send('Błąd serwera');
+		}
+	},
+);
 
 // @routing		PUT api/contacts/:id
 // @opis			Modyfikacja kontaktu
