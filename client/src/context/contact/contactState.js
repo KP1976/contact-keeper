@@ -48,6 +48,9 @@ const ContactState = props => {
 	};
 
 	// Skasuj kontakt
+	const deleteContact = id => {
+		dispatch({ type: DELETE_CONTACT, payload: id });
+	};
 
 	// Ustaw konkretny kontakt
 
@@ -60,7 +63,9 @@ const ContactState = props => {
 	// Wyczyść filtr
 
 	return (
-		<ContactContext.Provider value={{ contacts: state.contacts, addContact }}>{props.children}</ContactContext.Provider>
+		<ContactContext.Provider value={{ contacts: state.contacts, addContact, deleteContact }}>
+			{props.children}
+		</ContactContext.Provider>
 	);
 };
 
