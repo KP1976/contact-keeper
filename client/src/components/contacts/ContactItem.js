@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ContactItem = ({ contact }) => {
-	const { id, name, email, phone, type } = contact;
+	const { name, email, phone, type } = contact;
 
 	return (
 		<div className='card bg-light'>
 			<h3 className='text-primary text-left'>
-				{name}{' '}
+				{name}
 				<span
 					style={{ float: 'right' }}
-					className={'badge ' + (type === 'professional' ? 'badge-success' : 'badge-primary')}>
+					className={'badge ' + (type === 'profesjonalny' ? 'badge-success' : 'badge-primary')}>
 					{type.charAt(0).toUpperCase() + type.slice(1)}
 				</span>
 			</h3>

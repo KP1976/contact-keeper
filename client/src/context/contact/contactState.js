@@ -9,7 +9,7 @@ import {
 	CLEAR_CURRENT,
 	UPDATE_CONTACT,
 	FILTER_CONTACTS,
-	CLEAR_FILTER
+	CLEAR_FILTER,
 } from '../types';
 
 const ContactState = props => {
@@ -20,28 +20,32 @@ const ContactState = props => {
 				name: 'Jill Johnson',
 				email: 'jill@gmail.com',
 				phone: '111-111-1111',
-				type: 'personal'
+				type: 'osobisty',
 			},
 			{
 				id: 2,
 				name: 'Sara Watson',
 				email: 'sara@gmail.com',
 				phone: '222-222-2222',
-				type: 'personal'
+				type: 'osobisty',
 			},
 			{
 				id: 3,
 				name: 'Harry White',
 				email: 'hary@gmail.com',
 				phone: '333-333-3333',
-				type: 'professional'
+				type: 'profesjonalny',
 			},
-		]
+		],
 	};
 
-	const [state, dispatch] = useReducer(contactReducer, initialState)
+	const [state, dispatch] = useReducer(contactReducer, initialState);
 
 	// Dodaj kontakt
+	const addContact = contact => {
+		contact.id = uuid.v4();
+		dispatch({ type: ADD_CONTACT, payload: contact });
+	};
 
 	// Skasuj kontakt
 
@@ -56,10 +60,8 @@ const ContactState = props => {
 	// Wyczyść filtr
 
 	return (
-		<ContactContext.Provider value={{ contacts: state.contacts }}>
-			{ props.children }
-		</ContactContext.Provider>
-	)
+		<ContactContext.Provider value={{ contacts: state.contacts, addContact }}>{props.children}</ContactContext.Provider>
+	);
 };
 
 export default ContactState;
